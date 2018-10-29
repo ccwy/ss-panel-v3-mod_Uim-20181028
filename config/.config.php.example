@@ -54,7 +54,7 @@ $System_Config['jiaocheng1']='';     // 教程地址
 $System_Config['murss22']='true';     // 单端口开关
 
 //邮件设置--------------------------------------------------------------------------------------------
-$System_Config['mailDriver'] = 'mailgun';	// mailgun or smtp or sendgrid 选择发送邮件的方式
+$System_Config['mailDriver'] = 'none';	// mailgun or smtp or sendgrid 选择发送邮件的方式
 
 # mailgun
 $System_Config['mailgun_key'] = '';
