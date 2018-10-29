@@ -37,11 +37,24 @@ class Codepay extends AbstractPayment
     public function purchase($request, $response, $args)
     {
         $codepay_id = Config::get('codepay_id');//这里改成码支付ID
+		$payurl2=Config::get('payurl2'); //这是您的支付通知地址
+		$payurl3=Config::get('baseUrl'); //这是您的支付跳转地址
         $codepay_key = Config::get('codepay_key'); //这是您的通讯密钥
         $user = Auth::getUser();
         $price = $request->getParam('price');
+        		
+		//codepay码支付限额
+		if ($price >= Config::get('codypaymenay')) {
         $type = $request->getParam('type');
-
+		}
+		else 
+		{
+			//header("Location: /auto/rechargefailed.html"); 
+			header("Location: /code_error"); 
+			
+			exit;
+		}
+		
         $pl = new Paylist();
         $pl->userid = $user->id;
         $pl->total = $price;
@@ -56,8 +69,8 @@ class Codepay extends AbstractPayment
             "type" => $type,//1支付宝支付 2QQ钱包 3微信支付
             "price" => $price,//金额100元
             "param" => "",//自定义参数
-            "notify_url" => $url . '/payment/notify',//通知地址
-            "return_url" => $url . '/user/code',//跳转地址
+            "notify_url" => $payurl2 . '/payment/notify',//通知地址
+            "return_url" => $payurl3 . '/user/code',//跳转地址
         ); //构造需要传递的参数
 
         ksort($data); //重新排序$data数组

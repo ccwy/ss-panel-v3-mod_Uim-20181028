@@ -20,6 +20,9 @@ use App\Utils\Pay;
 use App\Utils\TelegramProcess;
 use App\Utils\Spay_tool;
 
+//shop
+use App\Models\Shop;
+
 /**
  *  HomeController
  */
@@ -40,14 +43,29 @@ class HomeController extends BaseController
     {
     }
 
-    public function tos()
+    public function toos()
     {
-        return $this->view()->display('tos.tpl');
+        return $this->view()->display('toos.tpl');
     }
     
-    public function staff()
+    public function fstaffs()
     {
-        return $this->view()->display('staff.tpl');
+        return $this->view()->display('fstaffs.tpl');
+    }
+    //联系我们
+    public function cous()
+    {
+        return $this->view()->display('cous.tpl');
+    }
+	//充值错误
+	public function code_error()
+    {
+        return $this->view()->display('code_error.tpl');
+    }
+     //禁止中国ip
+	public function error_ip()
+    {
+        return $this->view()->display('error_ip.tpl');
     }
     
     public function telegram($request, $response, $args)
@@ -98,6 +116,20 @@ class HomeController extends BaseController
     }
 
 
+    public function shop($request, $response, $args)
+    {
+        $pageNum = 1;
+        if (isset($request->getQueryParams()["page"])) {
+            $pageNum = $request->getQueryParams()["page"];
+        }
+		//商品显示模式优化
+       // $shops = Shop::where("status", 1)->orderBy("name")->paginate(20, ['*'], 'page', $pageNum);
+	   $shops = Shop::where("status", 1)->paginate(20, ['*'], 'page', $pageNum);
+        $shops->setPath('shop');
+
+        return $this->view()->assign('shops', $shops)->display('shop.tpl');
+    }
+	
 
     public function getOrderList($request, $response, $args)
     {

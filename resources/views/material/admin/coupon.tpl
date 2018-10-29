@@ -51,14 +51,6 @@
 									<input class="form-control" id="count" type="number" value="1">
 								</div>
 
-								<div class="form-group form-group-label">
-									<div class="checkbox switch">
-										<label for="onetime">
-											<input class="access-hide" id="onetime" type="checkbox"><span class="switch-toggle"></span>一次性的,只在用户当次购买时有效
-										</label>
-									</div>
-								</div>
-
 
 								<div class="form-group">
 									<div class="row">

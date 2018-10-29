@@ -101,7 +101,8 @@ class Analytics
         return Node::where('node_heartbeat', '>', 0)->where(
                     function ($query) {
                         $query->Where('sort', '=', 0)
-                            ->orWhere('sort', '=', 10);
+                            ->orWhere('sort', '=', 10)
+							->orWhere('sort', '=', 11);
                     }
                 )->count();
     }
@@ -111,8 +112,33 @@ class Analytics
         return Node::where(
             function ($query) {
                 $query->Where('sort', '=', 0)
-                    ->orWhere('sort', '=', 10);
+                    ->orWhere('sort', '=', 10)
+					->orWhere('sort', '=', 11);
             }
         )->where('node_heartbeat', '>', time()-90)->count();
+    }
+	
+	//余额
+    public function moneyone()
+    {
+        $total = User::sum('money');
+        return $total;
+    }
+   //返利
+    public function fanlione()
+    {
+        $total = User::sum('fanli');
+        return $total;
+    }
+	//付费用户，排除443端口和管理员、测试账号
+    public function classuseraa()
+    {
+        return User::where('class', '>', 1)->where('id','!=',1)->where('id','!=',1722)->where('id','!=',1766)->count();
+    }
+	//统计全站已用总流量
+	public function ssnodeTrafficUsage()
+    {
+        $total = Node::sum('node_bandwidth');
+        return Tools::flowAutoShow($total);
     }
 }

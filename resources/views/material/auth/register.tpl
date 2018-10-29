@@ -27,6 +27,7 @@
 								<div class="card-inner">
 
 
+								{*
 										<div class="form-group form-group-label">
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
@@ -35,6 +36,7 @@
 												</div>
 											</div>
 										</div>
+										*}
 
 										<div class="form-group form-group-label">
 											<div class="row">
@@ -68,6 +70,7 @@
 											</div>
 										</div>
 
+										{*
 										<div class="form-group form-group-label">
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
@@ -102,6 +105,7 @@
 												</div>
 											</div>
 										</div>
+										*}
 
 
 										{if $config['register_mode'] == 'invite'}
@@ -226,9 +230,9 @@
                     email: $("#email").val(),
                     name: $("#name").val(),
                     passwd: $("#passwd").val(),
-                    repasswd: $("#repasswd").val(),
+                    <!-- repasswd: $("#repasswd").val(),
 					wechat: $("#wechat").val(),
-					imtype: $("#imtype").val(),
+					imtype: $("#imtype").val(), -->
 					code:code{if $enable_email_verify == 'true'},
 					emailcode: $("#email_code").val(){/if}{if $geetest_html != null},
 					geetest_challenge: validate.geetest_challenge,

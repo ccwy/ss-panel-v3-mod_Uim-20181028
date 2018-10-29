@@ -76,13 +76,18 @@ $app->post('/notify', 'App\Controllers\HomeController:notify');
 $app->post('/alipay_callback', 'App\Services\Payment:notify');              // @todo: Will be replaced by Payment::notify
 $app->post('/pay_callback', 'App\Services\Payment:notify');
 $app->get('/pay_callback', 'App\Services\Payment:notify');                  // @todo: Will be replaced by Payment::notify
-$app->get('/tos', 'App\Controllers\HomeController:tos');
-$app->get('/staff', 'App\Controllers\HomeController:staff');
+$app->get('/toos', 'App\Controllers\HomeController:toos');  //tos
+$app->get('/fstaffs', 'App\Controllers\HomeController:fstaffs');  //staff
+$app->get('/cous', 'App\Controllers\HomeController:cous'); //联系我们
+$app->get('/code_error', 'App\Controllers\HomeController:code_error'); //充值错误页
+$app->get('/error_ip', 'App\Controllers\HomeController:error_ip'); //禁止中国ip 
 $app->get('/gfwlistjs', 'App\Controllers\LinkController:GetGfwlistJs');
 $app->post('/telegram_callback', 'App\Controllers\HomeController:telegram');
 $app->get('/yft/notify', 'App\Services\Gateway\YftPay:notify');            // @todo: Will be replaced by Payment::notify
 $app->get('/codepay_callback', 'App\Services\Payment:notify');
 $app->post('/codepay_callback', 'App\Services\Payment:notify');
+//shop
+$app->get('/shop', 'App\Controllers\HomeController:shop');
 
 // User Center
 $app->group('/user', function () {
@@ -107,7 +112,11 @@ $app->group('/user', function () {
     $this->post('/coupon_check', 'App\Controllers\UserController:CouponCheck');
     $this->post('/buy', 'App\Controllers\UserController:buy');
 
-
+	
+    //fanli	 
+	$this->get('/fanli', 'App\Controllers\UserController:fanli');
+	$this->post('/fanli', 'App\Controllers\UserController:fanlipost');
+	
     // Relay Mange
     $this->get('/relay', 'App\Controllers\RelayController:index');
     $this->get('/relay/create', 'App\Controllers\RelayController:create');
@@ -123,6 +132,8 @@ $app->group('/user', function () {
     $this->put('/ticket/{id}', 'App\Controllers\UserController:ticket_update');
 	
     $this->post('/invite', 'App\Controllers\UserController:doInvite');
+	$this->post('/invitede', 'App\Controllers\UserController:Invitede');  //重置邀请码
+	
     $this->post('/buy_invite', 'App\Controllers\UserController:buyInvite');
     $this->get('/edit', 'App\Controllers\UserController:edit');
     $this->post('/password', 'App\Controllers\UserController:updatePassword');
@@ -211,7 +222,10 @@ $app->group('/admin', function () {
     $this->put('/node/{id}', 'App\Controllers\Admin\NodeController:update');
     $this->delete('/node', 'App\Controllers\Admin\NodeController:delete');
     $this->post('/node/ajax', 'App\Controllers\Admin\NodeController:ajax');
-
+	//邮件纪律
+	$this->get('/email', 'App\Controllers\AdminController:email');
+	$this->post('/email/ajax', 'App\Controllers\AdminController:ajax_email');
+	
 
     $this->get('/ticket', 'App\Controllers\Admin\TicketController:index');
     $this->get('/ticket/{id}/view', 'App\Controllers\Admin\TicketController:show');

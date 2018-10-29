@@ -30,11 +30,11 @@
 							</ul>
 						</nav>
               </header>
-					 <footer id="footer"><p class="copyright">&copy;2014-{date("Y")} {$config["appName"]} </p></footer>
+					 <footer id="footer"><p class="copyright">&copy;2014-{date("Y")} {$config["appName"]}    <a href="/fstaffs">STAFF</a>    <a class="Keep Right" href="/toos">用户协议(TOS)</a> </p></footer>
 			</div>
 			<div id="bg"></div>
-			<script src="https://cdn.jsdelivr.net/npm/jquery@1.11.3"></script>
-			<script src="https://cdn.jsdelivr.net/gh/ajlkn/skel@3.0.1/dist/skel.min.js"></script>
+			<script src="/assets/js/jquery.min.js"></script>
+			<script src="/assets/js/skel.min.js"></script>
 			<script src="/assets/js/util.js"></script>
 			<script src="/assets/js/main.js"></script>
 </body></html>

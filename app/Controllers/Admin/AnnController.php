@@ -10,6 +10,9 @@ use App\Services\Mail;
 use App\Models\User;
 use Ozdemir\Datatables\Datatables;
 use App\Utils\DatatablesHelper;
+//邮件记录
+use App\Models\Emailjilu;
+use voku\helper\AntiXSS;
 
 class AnnController extends AdminController
 {
@@ -59,6 +62,17 @@ class AnnController extends AdminController
                     } catch (\Exception $e) {
                         continue;
                     }
+									
+		$antiXss = new AntiXSS();
+		$emailjilu = new Emailjilu();
+		$emailjilu->userid = $user->id;
+		$emailjilu->username = $user->user_name;
+		$emailjilu->useremail = $user->email;
+		$emailjilu->biaoti = $antiXss->xss_clean($subject);
+		$emailjilu->neirong = $antiXss->xss_clean($text);
+		$emailjilu->datetime = time();
+		$emailjilu->save();
+		
                 }
             }
         }

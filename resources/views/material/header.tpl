@@ -9,8 +9,10 @@
 	<!-- css -->
 	<link href="/theme/material/css/base.min.css" rel="stylesheet">
 	<link href="/theme/material/css/project.min.css" rel="stylesheet">
-	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
-	<link href="https://fonts.loli.net/css?family=Material+Icons" rel="stylesheet">
+	<!--  <link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
+	<link href="https://fonts.loli.net/css?family=Material+Icons" rel="stylesheet"> -->
+	<link href="/theme/material/css/roboto.css" rel="stylesheet">
+	<link href="/theme/material/css/icon.css" rel="stylesheet">
 
 	<!-- favicon -->
 
@@ -42,7 +44,7 @@
 							<a class="padding-right-lg waves-attach" href="/user/"><span class="icon icon-lg margin-right">account_box</span>用户中心</a>
 						</li>
 						<li>
-							<a class="padding-right-lg waves-attach" href="/user/logout"><span class="icon icon-lg margin-right">exit_to_app</span>登出</a>
+							<a class="padding-right-lg waves-attach" href="/user/logout"><span class="icon icon-lg margin-right">exit_to_app</span>退出登录</a>
 						</li>
 					</ul>
 				{else}
@@ -74,7 +76,7 @@
 						<a  href="/user"><i class="icon icon-lg">person</i>&nbsp;用户中心</a>
 					</li>
 					<li>
-						<a  href="/user/logout"><i class="icon icon-lg">call_missed_outgoing</i>&nbsp;退出</a>
+						<a  href="/user/logout"><i class="icon icon-lg">call_missed_outgoing</i>&nbsp;退出登录</a>
 					</li>
 					{else}
 					<li>
@@ -83,15 +85,26 @@
 					<li>
 						<a  href="/auth/register"><i class="icon icon-lg">person_add</i>&nbsp;注册</a>
 					</li>
-                  	<li>
+                  	
+					<li>
+						<a  href="/shop"><i class="icon icon-lg">shop</i>&nbsp;价格</a>
+					</li>
+					<li>
 				     <a  href="/password/reset"><i class="icon icon-lg">security</i>&nbsp;重置密码</a>
 					</li>
+					<li>
+				     <a  href="/toos"><i class="icon icon-lg">text_format</i>&nbsp;用户协议</a>
+					</li>
+					
+					<li>
+						<a  href="/cous"><i class="icon icon-lg">email</i>&nbsp;联系我们</a>
+					</li>
 
-                  <li>
+                <!--  <li>
                     <div class="divcss5">
     					<img  src="/images/Ambassador-menu.png" width="230" height="310"/>
                       </div>
-					</li>
+					</li> -->
 					{/if}
 				</ul>
 			</div>

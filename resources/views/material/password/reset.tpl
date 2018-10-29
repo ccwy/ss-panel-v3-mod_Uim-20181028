@@ -34,7 +34,7 @@
 											<div class="row">
 												<div class="col-md-10 col-md-push-1">
 													<button id="reset" type="submit" class="btn btn-block btn-brand waves-attach waves-light">重置密码</button>
-													<a href="" onclick="return false;" data-toggle='modal' data-target='#email_nrcy_modal'>收不到验证码？点击这里</a>
+													<p><a href="" onclick="return false;" data-toggle='modal' data-target='#email_nrcy_modal'>收不到验证码？点击这里</a></p>
 												</div>
 											</div>
 										</div>

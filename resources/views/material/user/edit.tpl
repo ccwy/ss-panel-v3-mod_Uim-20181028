@@ -16,43 +16,15 @@
 	<main class="content">
 		<div class="content-header ui-content-header">
 			<div class="container">
-				<h1 class="content-heading">修改资料</h1>
+				<h1 class="content-heading">系统设置</h1>
 			</div>
 		</div>
 		<div class="container">
 			<section class="content-inner margin-top-no">
-             
+			
+			{if $user->class >1}
+             <div class="col-lg-6 col-md-6">
 
-
-					<div class="col-lg-6 col-md-6">
-						<div class="card margin-bottom-no">
-							<div class="card-main">
-								<div class="card-inner">
-									<div class="card-inner">
-										<p class="card-heading">账号登录密码修改</p>
-										<div class="form-group form-group-label">
-											<label class="floating-label" for="oldpwd">当前密码</label>
-											<input class="form-control" id="oldpwd" type="password">
-										</div>
-
-										<div class="form-group form-group-label">
-											<label class="floating-label" for="pwd">新密码</label>
-											<input class="form-control" id="pwd" type="password">
-										</div>
-
-										<div class="form-group form-group-label">
-											<label class="floating-label" for="repwd">确认新密码</label>
-											<input class="form-control" id="repwd" type="password">
-										</div>
-									</div>
-									<div class="card-action">
-										<div class="card-action-btn pull-left">
-											<button class="btn btn-flat waves-attach" id="pwd-update" ><span class="icon">check</span>&nbsp;提交</button>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
 
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -60,6 +32,9 @@
 									<div class="card-inner">
 										<p class="card-heading">节点连接密码修改</p>
 										<p>当前连接密码：<code id="ajax-user-passwd">{$user->passwd}</code><button class="kaobei copy-text btn btn-subscription" type="button" data-clipboard-text="{$user->passwd}">点击拷贝</button></p>
+										<p><font color="red">连接密码只能是大写字母、小写字母、数字，连接密码需大于8位，小于26位；
+										<br>改完连接密码后请更新客户端服务器的连接密码或者重新导入配置文件！
+										<br>修改链接密码会导致V2ray的UUID自动更新，请留意并更新V2ray节点配置</font></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="sspwd">新连接密码</label>
 											<input class="form-control" id="sspwd" type="text">
@@ -84,14 +59,14 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">加密方式修改</p>
-										<p>注意：SS/SSD/SSR 支持的加密方式有所不同，请根据实际情况来进行选择</p>
+										<p>注意：SS 和 SSR 支持的加密方式有所不同，请根据实际情况来进行选择！</p>
 										<p>当前加密方式：<code>{$user->method}</code></p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="method">加密方式</label>
 											<select id="method" class="form-control">
 												{$method_list = $config_service->getSupportParam('method')}
 												{foreach $method_list as $method}
-													<option value="{$method}" {if $user->method == $method}selected="selected"{/if}>[{if URL::CanMethodConnect($method) == 2}SS/SSD{else}SS/SSR{/if} 可连接] {$method}</option>
+													<option value="{$method}" {if $user->method == $method}selected="selected"{/if}>[{if URL::CanMethodConnect($method) == 2}SS{else}SS/SSR{/if} 可连接] {$method}</option>
 												{/foreach}
 											</select>
 										</div>
@@ -106,6 +81,7 @@
 							</div>
 						</div>  
 
+						{*
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
@@ -156,6 +132,7 @@
 								</div>
 							</div>
 						</div>
+						*}
 
 
 
@@ -164,15 +141,15 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">协议&混淆设置</p>
-										<p>当前协议：<code id="ajax-user-protocol">{$user->protocol}</code></p>
-										<p>注意1：如果需要兼容 SS/SSD 请设置为 origin 或选择带_compatible的兼容选项</p>
-										<p>注意3：auth_chain 系为实验性协议，可能造成不稳定或无法使用，开启前请询问是否支持</p>
+										<p>当前协议：{$user->protocol}</p>
+										<p>注意1：如果需要兼容原版SS请选择带_compatible的兼容选项！</p>
+										<p>注意2：如果您使用原版 SS 客户端此处请直接设置为 origin！</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="protocol">协议</label>
 											<select id="protocol" class="form-control">
 												{$protocol_list = $config_service->getSupportParam('protocol')}
 												{foreach $protocol_list as $protocol}
-													<option value="{$protocol}" {if $user->protocol == $protocol}selected="selected"{/if}>[{if URL::CanProtocolConnect($protocol) == 3}SS/SSD/SSR{else}SSR{/if} 可连接] {$protocol}</option>
+													<option value="{$protocol}" {if $user->protocol == $protocol}selected="selected"{/if}>[{if URL::CanProtocolConnect($protocol) == 3}SS/SSR{else}SSR{/if} 可连接] {$protocol}</option>
 												{/foreach}
 											</select>
 										</div>
@@ -180,37 +157,43 @@
 									</div>
 
 									<div class="card-inner">
-										<p>当前混淆方式：<code id="ajax-user-obfs">{$user->obfs}</code></p>
-										<p>注意1：如果需要兼容 SS/SSD 请设置为 plain 或选择带_compatible的兼容选项</p>
-										<p>注意2：SS/SSD 和 SSR 支持的混淆类型有所不同，simple_obfs_* 为 SS/SSD 的混淆方式，其他为 SSR 的混淆方式</p>
-										<p>注意3：如果使用 SS/SSD 作为客户端，请确保自己知道如何下载并使用混淆插件</p>
+										<p>当前混淆方式：{$user->obfs}</p>
+										<p>注意1：如果需要兼容原版SS请选择带_compatible的兼容选项！</p>
+										<p>注意2：SS 和 SSR 支持的混淆类型有所不同，simple_obfs_* 为原版 SS 的混淆方式，其他为 SSR 的混淆方式！</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="obfs">混淆方式</label>
 											<select id="obfs" class="form-control">
 												{$obfs_list = $config_service->getSupportParam('obfs')}
 												{foreach $obfs_list as $obfs}
-													<option value="{$obfs}" {if $user->obfs == $obfs}selected="selected"{/if}>[{if URL::CanObfsConnect($obfs) >= 3}SS/SSD/SSR{else}{if URL::CanObfsConnect($obfs) == 1}SSR{else}SS/SSD{/if}{/if} 可连接] {$obfs}</option>
+													<option value="{$obfs}" {if $user->obfs == $obfs}selected="selected"{/if}>[{if URL::CanObfsConnect($obfs) >= 3}SS/SSR{else}{if URL::CanObfsConnect($obfs) == 1}SSR{else}SS{/if}{/if} 可连接] {$obfs}</option>
 												{/foreach}
 											</select>
 										</div>
 									</div>
 
+									{*
 									<div class="card-inner">
 										<p>当前混淆参数：<code id="ajax-user-obfs-param">{$user->obfs_param}</code></p>
+										<p>注意：如果需要兼容原版SS请留空！</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="obs-param">在这输入混淆参数</label>
 											<input class="form-control" id="obfs-param" type="text">
 										</div>
 									</div>
+									*}
 
+									
 									<div class="card-action">
 										<div class="card-action-btn pull-left">
 											<button class="btn btn-flat waves-attach" id="ssr-update" ><span class="icon">check</span>&nbsp;提交</button>
 										</div>
 									</div>
+									
 								</div>
 							</div>
-						</div>  
+						</div>
+					</div>
+				{/if}	
 
 
 
@@ -218,6 +201,7 @@
 
 
 
+						{*
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
@@ -242,12 +226,9 @@
 								</div>
 							</div>
 						</div> 
-</div>
-					</div>  
+						*}
 
-
-					<div class="col-lg-6 col-md-6">
-
+					{*
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
@@ -272,7 +253,7 @@
 								<div class="card-inner">
 									<div class="card-inner">
 										<p class="card-heading">每日邮件接收设置</p>
-										<p>当前设置：<code id="ajax-mail">{if $user->sendDailyMail==1}发送{else}不发送{/if}</code></p>
+										<p>当前设置：{if $user->sendDailyMail==1} 发送 {else} 不发送 {/if}</p>
 										<div class="form-group form-group-label">
 											<label class="floating-label" for="mail">发送设置</label>
 											<select id="mail" class="form-control">
@@ -336,7 +317,72 @@
 								</div>
 							</div>
 						</div>    
+						*}
 
+						
+						
+					
+					<div class="col-lg-6 col-md-6">
+					
+						<div class="card margin-bottom-no">
+							<div class="card-main">
+								<div class="card-inner">
+									<div class="card-inner">
+										<p class="card-heading">账号登录密码修改</p>
+										<div class="form-group form-group-label">
+											<label class="floating-label" for="oldpwd">当前密码</label>
+											<input class="form-control" id="oldpwd" type="password">
+										</div>
+
+										<div class="form-group form-group-label">
+											<label class="floating-label" for="pwd">新密码</label>
+											<input class="form-control" id="pwd" type="password">
+										</div>
+
+										<div class="form-group form-group-label">
+											<label class="floating-label" for="repwd">确认新密码</label>
+											<input class="form-control" id="repwd" type="password">
+										</div>
+									</div>
+									<div class="card-action">
+										<div class="card-action-btn pull-left">
+											<button class="btn btn-flat waves-attach" id="pwd-update" ><span class="icon">check</span>&nbsp;提交</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+						
+					{if $user->class >1}	
+						{if $config['restport'] == 'true'}
+						<div class="card margin-bottom-no">
+							<div class="card-main">
+								<div class="card-inner">
+									<div class="card-inner">
+										<p class="card-heading">重置端口</p>
+										<p>注意：重置端口立即生效，随机生成新的端口，请及时更新节点信息，否则可能无法使用任何节点；
+										<br>当前端口：{$user->port}</p>
+										{if $user->port >= 10500}
+										<p><font color="red">您当前端口可能会导致部分节点无法使用，请点击下面重置端口按钮，完成端口重置。</font></p>
+										{else}
+										<p><font color="red">您的端口在正常使用范围内，无需重置。</font></p>
+										{/if}
+
+
+									</div>
+									<div class="card-action">
+										<div class="card-action-btn pull-left">
+											<button class="btn btn-brand waves-attach" id="portreset" ><span class="icon">check</span>&nbsp;重置端口</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						{/if}
+						
+						
+					<!--
 						{if $config['port_price']>=0 || $config['port_price_specify']>=0}
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -377,6 +423,7 @@
 							</div>
 						</div>
 						{/if}
+						-->
 
 						<div class="card margin-bottom-no">
 							<div class="card-main">
@@ -425,6 +472,7 @@
 							</div>
 						</div>
 						{/if}
+					{/if}	
 					</div>
 
 
@@ -468,7 +516,7 @@ $(".copy-text").click(function () {
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
-						$("#ajax-user-port").html(data.msg);
+						$("#ajax-user-port").html(date.msg);
 						$("#msg").html("设置成功，新端口是"+data.msg);
 						
                     } else {
@@ -631,8 +679,6 @@ $(".copy-text").click(function () {
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
-						$("#ajax-user-protocol").html($("#protocol").val());
-						$("#ajax-user-obfs").html($("#obfs").val());
 						$("#ajax-user-obfs-param").html($("#obfs-param").val());
 						$("#msg").html(data.msg);
                     } else {
@@ -780,10 +826,10 @@ $(".copy-text").click(function () {
                     if (data.ret) {
                         $("#result").modal();
 						$("#ajax-user-passwd").html($("#sspwd").val());
-						$("#msg").html("成功了");
+						$("#msg").html(data.msg);
                     } else {
                         $("#result").modal();
-						$("#msg").html("失败了");
+						$("#msg").html(data.msg);
                     }
                 },
                 error: function (jqXHR) {
@@ -809,7 +855,6 @@ $(".copy-text").click(function () {
                 success: function (data) {
                     if (data.ret) {
                         $("#result").modal();
-						$("#ajax-mail").html($("#mail").val()=="1"?"发送":"不发送");
 						$("#msg").html(data.msg);
                     } else {
                         $("#result").modal();

@@ -58,11 +58,22 @@
 									</div>
 								</div>
 
+								
+								<div class="form-group form-group-label">
+									<div class="checkbox switch">
+										<label for="auto_reset_day">
+											<input class="access-hide" id="auto_reset_day" type="checkbox"><span class="switch-toggle"></span>每月购买当日自动重置用户流量
+										</label>
+									</div>
+								</div>
+								
+
 							</div>
 						</div>
 					</div>
 
 
+					{*
 					<div class="card">
 						<div class="card-main">
 							<div class="card-inner">
@@ -74,6 +85,7 @@
 							</div>
 						</div>
 					</div>
+					*}
 
 					<div class="card">
 						<div class="card-main">
@@ -186,6 +198,15 @@
 				var auto_reset_bandwidth=0;
 			}
 
+			if(document.getElementById('auto_reset_day').checked)
+			{
+				var auto_reset_day=1;
+			}
+			else
+			{
+				var auto_reset_day=0;
+			}
+			
             $.ajax({
                 type: "POST",
                 url: "/admin/shop",
@@ -193,12 +214,13 @@
                 data: {
                     name: $("#name").val(),
 										auto_reset_bandwidth: auto_reset_bandwidth,
+										auto_reset_day: auto_reset_day,
                     price: $("#price").val(),
                     auto_renew: $("#auto_renew").val(),
                     bandwidth: $("#bandwidth").val(),
                     speedlimit: $("#speedlimit").val(),
                     connector: $("#connector").val(),
-                    expire: $("#expire").val(),
+                    <!--   expire: $("#expire").val(), -->
                     class: $("#class").val(),
 										class_expire: $("#class_expire").val(),
 										reset: $("#reset").val(),

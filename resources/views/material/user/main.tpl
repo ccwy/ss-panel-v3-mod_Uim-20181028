@@ -11,8 +11,12 @@
 	<!-- css -->
 	<link href="/theme/material/css/base.min.css" rel="stylesheet">
 	<link href="/theme/material/css/project.min.css" rel="stylesheet">
+	<link href="/theme/material/css/roboto.css" rel="stylesheet">
+	<link href="/theme/material/css/icon.css" rel="stylesheet">
+	<!--
 	<link href="https://fonts.loli.net/css?family=Roboto:300,300italic,400,400italic,500,500italic" rel="stylesheet">
 	<link href="https://fonts.loli.net/css?family=Material+Icons" rel="stylesheet">
+	-->
 
  <style>
     body {
@@ -279,7 +283,7 @@
 		}
 
 		.page-orange .ui-content-header {
-			background-image: url(/theme/material/css/images/bg/amber.jpg);
+			background-image: url(/theme/material/css/images/bg/red.jpg);
 		}
 
 		.content-heading {
@@ -348,16 +352,9 @@
 								</a>
 							</li>
 
-
-							<li>
-								<a href="/user/profile">
-									<i class="icon icon-lg">account_box</i>&nbsp;账户信息
-								</a>
-							</li>
-
 							<li>
 								<a href="/user/edit">
-									<i class="icon icon-lg">sync_problem</i>&nbsp;资料编辑
+									<i class="icon icon-lg">sync_problem</i>&nbsp;系统设置
 								</a>
 							</li>
 
@@ -404,18 +401,18 @@
 								</a>
 							</li>
 
-							<li>
+							{* <li>
 								<a href="/user/lookingglass">
 									<i class="icon icon-lg">visibility</i>&nbsp;延迟检测
 								</a>
 								<a href="/user/announcement">
 									<i class="icon icon-lg">start</i>&nbsp;使用教程
 								</a>
-							</li>
+							</li> *}
 						</ul>
 
 						<a class="waves-attach" data-toggle="collapse" href="#ui_menu_detect">审计</a>
-						<ul class="menu-collapse collapse in" id="ui_menu_detect">
+						<ul class="menu-collapse collapse out" id="ui_menu_detect">
 							<li><a href="/user/detect"><i class="icon icon-lg">account_balance</i>&nbsp;审计规则</a></li>
 							<li><a href="/user/detect/log"><i class="icon icon-lg">assignment_late</i>&nbsp;审计记录</a></li>
 						</ul>

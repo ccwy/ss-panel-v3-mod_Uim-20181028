@@ -36,7 +36,10 @@ class AliPay
         if (!$this->getConfig('WxPay_Status') == 0)
             $a .= '<a class="btn btn-flat waves-attach" id="urlChangeAliPay2" type="2"><img src="/images/weixin.jpg" width="45"></a>';
         $html = '<div class="form-group pull-left">
-                        <p class="modal-title" >本站支持支付宝/微信在线充值</p>';
+                        <p class="modal-title" >支持支付宝/微信在线充值</p>
+						<p>1，支付宝/微信充值，支持 '.Config::get('codypaymenay').' 元以上任意金额，在下方输入充值金额，支付金额必须要和输入金额一致，点击支付宝/微信图标，扫码支付，
+						<br>2，付款时不能关闭二维码页面，否则无法自动到账，支付成功等待网页自动跳转提示，没提示前不要关闭二维码页面，付款时不能填备注，否则可能会导致无法自动到账。
+						</p>';
         if (preg_match('/\|/', $this->getConfig('Pay_Price'))) {
             $data = explode('|', $this->getConfig('Pay_Price'));
             $html .= '<p>选择充值金额：</p><div class="form-group form-group-label btnBox">';
@@ -46,9 +49,7 @@ class AliPay
         } else $html .= '<p>输入充值金额：</p><div class="form-group form-group-label btnBox"><label class="floating-label" for="price">充值金额</label>
                         <input type="number" id="AliPayType" class="form-control" name="amount" />';
         $html .= '</div>' . $a . '</div>
-                        <div class="form-group pull-right">
-                        <img src="/images/qianbai-2.png" height="205" />
-                        </div>';
+                        ';
         return $html;
     }
 
@@ -69,7 +70,7 @@ class AliPay
 //        }
         $user->save();
         $codeq = new Code();
-        $codeq->code = "ChenPay充值" . $order;
+        $codeq->code = $order;
         $codeq->isused = 1;
         $codeq->type = -1;
         $codeq->number = $trade->total;
@@ -77,16 +78,23 @@ class AliPay
         $codeq->userid = $user->id;
         $codeq->save();
         if ($user->ref_by != "" && $user->ref_by != 0 && $user->ref_by != null) {
+			
+			//首次返利
+			$ref_Payback=Payback::where("ref_by", "=", $user->ref_by)->where("userid", "=", $user->id)->first();
+			if ($ref_Payback->userid != $user->id && $ref_Payback->ref_by != $user->ref_by ) {
+				
             $gift_user = User::where("id", "=", $user->ref_by)->first();
-            $gift_user->money = $gift_user->money + ($codeq->number * 0.2);
+            $gift_user->fanli=($gift_user->fanli+($codeq->number*(Config::get('code_payback')/100)));  //返利10
             $gift_user->save();
+			
             $Payback = new Payback();
             $Payback->total = $trade->total;
             $Payback->userid = $user->id;
             $Payback->ref_by = $user->ref_by;
-            $Payback->ref_get = $codeq->number * 0.2;
+            $Payback->ref_get = $codeq->number*(Config::get('code_payback')/100);
             $Payback->datetime = time();
             $Payback->save();
+			}
         }
     }
 
@@ -253,9 +261,9 @@ class AliPay
 //                        return $item['outTradeNo'];
 //                    }
                     if ($item['signProduct'] == '转账收款码' && $item['accountType'] == '交易' &&
-                        strtotime($item['tradeTime']) < $time && $item['tradeAmount'] == $fee) {
-                        if (!Paylist::where('tradeno', $item['orderNo'])->first())
-                            return $item['orderNo'];
+                        strtotime($item['tradeTime']) < $time && strtotime($item['tradeTime']) > $time-180 && $item['tradeAmount'] == $fee) {
+                        if (!Paylist::where('tradeno', $item['tradeNo'])->first())
+                            return $item['tradeNo'];
                     }
                 }
             }

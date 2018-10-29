@@ -89,7 +89,7 @@ class PasswordController extends BaseController
         $rs['ret'] = 1;
         $rs['msg'] = '重置成功';
         
-        $user->clean_link();
+       // $user->clean_link();
         
         return $response->getBody()->write(json_encode($rs));
     }

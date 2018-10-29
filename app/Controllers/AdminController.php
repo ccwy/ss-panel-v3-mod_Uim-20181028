@@ -15,6 +15,8 @@ use App\Services\Analytics;
 
 use Ozdemir\Datatables\Datatables;
 use App\Utils\DatatablesHelper;
+//增加邮件记录
+use App\Models\Emailjilu;
 
 /**
  *  Admin Controller
@@ -116,8 +118,14 @@ class AdminController extends UserController
     {
         $code = new Coupon();
         $code->onetime=$request->getParam('onetime');
-
-        $code->code=$request->getParam('prefix').Tools::genRandomChar(8);
+		$prefix = $request->getParam('prefix');
+		if ($prefix == '') {
+			$code->code=Tools::genRandomChar(10);
+		} else {
+			$code->code=$request->getParam('prefix');
+		}	
+       //优惠码添加自定义
+      //  $code->code=$request->getParam('prefix').Tools::genRandomChar(8);
         $code->expire=time()+$request->getParam('expire')*3600;
         $code->shop=$request->getParam('shop');
         $code->credit=$request->getParam('credit');
@@ -144,6 +152,35 @@ class AdminController extends UserController
         return $this->view()->assign('table_config', $table_config)->display('admin/trafficlog.tpl');
     }
 
+	//邮件发送记录
+   
+    public function email($request, $response, $args)
+    {
+        $table_config['total_column'] = array("id" => "ID", "userid" => "用户ID", "username" => "用户名",
+                           "useremail" => "用户邮箱", "datetime" => "发送时间",
+                          "biaoti" => "邮件标题", "neirong" => "邮件内容");           
+        $table_config['default_show_column'] = array("id", "userid", "username",
+                                  "useremail", "datetime", "biaoti",
+                                  "neirong");
+        $table_config['ajax_url'] = 'email/ajax';
+        return $this->view()->assign('table_config', $table_config)->display('admin/email.tpl');
+    }
+
+//邮件发送记录
+    public function ajax_email($request, $response, $args)
+    {
+        $datatables = new Datatables(new DatatablesHelper());
+        $datatables->query('Select emailjilu.id,emailjilu.userid,emailjilu.username,emailjilu.useremail,emailjilu.datetime,emailjilu.biaoti,emailjilu.neirong from emailjilu');
+
+        $datatables->edit('datetime', function ($data) {
+            return date('Y-m-d H:i:s', $data['datetime']);
+        });
+
+        $body = $response->getBody();
+        $body->write($datatables->generate());
+    }
+
+	
     public function ajax_trafficLog($request, $response, $args)
     {
         $datatables = new Datatables(new DatatablesHelper());

@@ -19,7 +19,7 @@
 						<div class="card margin-bottom-no">
 							<div class="card-main">
 								<div class="card-inner">
-									<p>下面是系统运行情况简报。</p>
+									<p>下面是系统运行情况简报；用户总余额  {$sts->moneyone()} 元，用户总返利  {$sts->fanlione()} 元，付费用户  {$sts->classuseraa()}  人 ， 全站已用总流量   {$sts->ssnodeTrafficUsage()}  </p>
 								</div>
 							</div>
 						</div>
@@ -37,7 +37,7 @@
 									
 										<div id="check_chart" style="height: 300px; width: 100%;"></div>
 										
-										<script src="//cdn.jsdelivr.net/gh/YihanH/canvasjs.js@v2.2/canvasjs.min.js"></script>
+										<script src="/theme/material/js/canvasjs.min.js"></script>
 										<script type="text/javascript">
 											var chart = new CanvasJS.Chart("check_chart",
 											{
@@ -91,7 +91,7 @@
 									
 										<div id="alive_chart" style="height: 300px; width: 100%;"></div>
 										
-										<script src="//cdn.jsdelivr.net/gh/YihanH/canvasjs.js@v2.2/canvasjs.min.js"></script>
+										<script src="/theme/material/js/canvasjs.min.js"></script>
 										<script type="text/javascript">
 											var chart = new CanvasJS.Chart("alive_chart",
 											{
@@ -157,7 +157,7 @@
 									
 										<div id="node_chart" style="height: 300px; width: 100%;"></div>
 										
-										<script src="//cdn.jsdelivr.net/gh/YihanH/canvasjs.js@v2.2/canvasjs.min.js"></script>
+										<script src="/theme/material/js/canvasjs.min.js"></script>
 										<script type="text/javascript">
 											var chart = new CanvasJS.Chart("node_chart",
 											{
@@ -210,7 +210,7 @@
 									
 										<div id="traffic_chart" style="height: 300px; width: 100%;"></div>
 										
-										<script src="//cdn.jsdelivr.net/gh/YihanH/canvasjs.js@v2.2/canvasjs.min.js"></script>
+										<script src="/theme/material/js/canvasjs.min.js"></script>
 										<script type="text/javascript">
 											var chart = new CanvasJS.Chart("traffic_chart",
 											{

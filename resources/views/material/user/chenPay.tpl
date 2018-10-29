@@ -17,7 +17,10 @@
 </style>
 <div class="card-inner">
     <div class="form-group pull-left">
-        <p class="modal-title">本站支持支付宝/微信在线充值</p>
+        <p class="modal-title">支付宝/微信在线充值</p>
+		<p>1，支付宝/微信充值，支持 {$config["codypaymenay"]}  元以上任意金额，在下方输入充值金额，支付金额必须要和输入金额一致，点击支付宝/微信图标，扫码支付，
+		<br>2，付款时不能关闭二维码页面，否则无法自动到账，支付成功等待网页自动跳转提示，没提示前不要关闭二维码页面，付款时不能填备注，否则可能会导致无法自动到账。
+		</p>
         {if preg_match('/\|/', $config['Pay_Price'])}
         {$data = explode('|', $config['Pay_Price'])}
         <p>选择充值金额：</p>
@@ -33,7 +36,7 @@
                 <input type="number" id="AliPayType" class="form-control" name="amount"/>
             </div>
             {/if}
-        </div>
+        
 
         {if $config['AliPay_Status']==1}
             <a class="btn btn-flat waves-attach" id="urlChangeAliPay" type="1"><img src="/images/alipay.jpg"
@@ -44,9 +47,11 @@
                                                                                      width="45"></a>
         {/if}
     </div>
+	<!--
     <div class="form-group pull-right">
         <img src="/images/qianbai-2.png" height="205"/>
     </div>
+	-->
 </div>
 <div aria-hidden="true" class="modal modal-va-middle fade" id="AliPayReadyToPay" role="dialog"
      tabindex="-1">
@@ -61,6 +66,7 @@
             <div class="modal-inner" style="text-align: center">
 
                 <div class="text-center">
+				<p><font color="red">付款时不能关闭这里，否则无法自动到账</font></p>
                     <p id="title" class="textShow"></p>
                     <p id="qrcode">
                         <a class="pay"
@@ -204,7 +210,7 @@
             function getCountdown() {
                 countdown.innerHTML = "<span>" + (m >= 10 ? m : '0' + m) + "</span>:<span>" + (s >= 10 ? s : '0' + s) + "</span>";
                 if (m == 0 && s == 0) {
-                    close('倒计时结束了');
+                    close('充值码已过期，如付款成功请联系管理员处理');
                 } else if (m >= 0) {
                     if (s > 0) {
                         s--;

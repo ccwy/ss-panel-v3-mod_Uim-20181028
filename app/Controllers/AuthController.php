@@ -23,6 +23,8 @@ use App\Utils\GA;
 use App\Utils\Wecenter;
 use App\Utils\Geetest;
 use App\Utils\TelegramSessionManager;
+//邮件记录
+use App\Models\Emailjilu;
 
 /**
  *  AuthController
@@ -211,7 +213,14 @@ class AuthController extends BaseController
                 $res['msg'] = "邮箱无效";
                 return $response->getBody()->write(json_encode($res));
             }
-
+				
+		//不能使用QQ邮箱
+       if (strstr($email, 'qq.com')) {
+            $res['ret'] = 0;
+            $res['msg'] = "不能使用QQ邮箱";
+            return $response->getBody()->write(json_encode($res));
+        }
+		
 
             $user = User::where('email', '=', $email)->first();
             if ($user != null) {
@@ -255,6 +264,19 @@ class AuthController extends BaseController
             } catch (\Exception $e) {
                 return false;
             }
+			
+			//邮件记录
+           
+		$antiXss = new AntiXSS();
+		$emailjilu = new Emailjilu();
+		$emailjilu->userid = 0;
+		$emailjilu->username = $email;
+		$emailjilu->useremail = $email;
+		$emailjilu->biaoti = $antiXss->xss_clean($subject);
+		$emailjilu->neirong = $antiXss->xss_clean($code);
+		$emailjilu->datetime = time();
+		$emailjilu->save();
+
 
             $res['ret'] = 1;
             $res['msg'] = "验证码发送成功，请查收邮件。";
@@ -335,7 +357,14 @@ class AuthController extends BaseController
             $res['msg'] = "邮箱已经被注册了";
             return $response->getBody()->write(json_encode($res));
         }
-
+		
+		//不能使用QQ邮箱
+       if (strstr($email, 'qq.com')) {
+            $res['ret'] = 0;
+            $res['msg'] = "不能使用QQ邮箱";
+            return $response->getBody()->write(json_encode($res));
+        }
+		
         if (Config::get('enable_email_verify') == 'true') {
             $mailcount = EmailVerify::where('email', '=', $email)->where('code', '=', $emailcode)->where('expire_in', '>', time())->first();
             if ($mailcount == null) {
@@ -380,7 +409,7 @@ class AuthController extends BaseController
         $antiXss = new AntiXSS();
 
 
-        $user->user_name = $antiXss->xss_clean($name);
+        $user->user_name = $antiXss->xss_clean($email);
         $user->email = $email;
         $user->pass = Hash::passwordHash($passwd);
         $user->passwd = Tools::genRandomChar(6);
@@ -395,8 +424,8 @@ class AuthController extends BaseController
         $user->obfs_param = Config::get('reg_obfs_param');
         $user->forbidden_ip = Config::get('reg_forbidden_ip');
         $user->forbidden_port = Config::get('reg_forbidden_port');
-        $user->im_type = $imtype;
-        $user->im_value = $antiXss->xss_clean($wechat);
+        $user->im_type = 1;
+        $user->im_value = $antiXss->xss_clean(email);
         $user->transfer_enable = Tools::toGB(Config::get('defaultTraffic'));
         $user->invite_num = Config::get('inviteNum');
         $user->auto_reset_day = Config::get('reg_auto_reset_day');

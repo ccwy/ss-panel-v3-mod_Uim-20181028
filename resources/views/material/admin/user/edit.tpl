@@ -64,6 +64,11 @@
 								</div>
 
 								<div class="form-group form-group-label">
+									<label class="floating-label" for="fanli">返利</label>
+									<input class="form-control" id="fanli" type="text" value="{$edit_user->fanli}">
+								</div>
+
+								<div class="form-group form-group-label">
 									<label for="is_multi_user">
 										<label class="floating-label" for="sort">单端口多用户承载端口</label>
 										<select id="is_multi_user" class="form-control" name="is_multi_user">
@@ -321,6 +326,7 @@
                     method: $("#method").val(),
 										remark: $("#remark").val(),
 										money: $("#money").val(),
+										fanli: $("#fanli").val(),
                     enable: enable,
                     is_admin: is_admin,
                     ga_enable: ga_enable,
